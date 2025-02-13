@@ -5,7 +5,8 @@ from time import time
 
 from .utils import INF, argmin, elapsed_time, BLUE, RED, apply_alpha
 
-EPSILON = 1e-6
+# EPSILON = 1e-6
+EPSILON = 1
 PRINT_FREQUENCY = 100
 
 class OptimalNode(object):
@@ -84,7 +85,7 @@ def safe_path(sequence, collision):
 ##################################################
 
 def rrt_star(start, goal, distance_fn, sample_fn, extend_fn, collision_fn, radius,
-             max_time=INF, max_iterations=INF, goal_probability=.2, informed=True):
+             max_time=INF, max_iterations=INF, goal_probability=.2, informed=False):
     """
     :param start: Start configuration - conf
     :param goal: End configuration - conf
@@ -125,7 +126,11 @@ def rrt_star(start, goal, distance_fn, sample_fn, extend_fn, collision_fn, radiu
             goal_n = new
             goal_n.set_solution(True)
         # TODO - k-nearest neighbor version
-        neighbors = filter(lambda n: distance_fn(n.config, new.config) < radius, nodes)
+        # neighbors = filter(lambda n: distance_fn(n.config, new.config) < radius, nodes)
+        neighbors = list(filter(lambda n: distance_fn(n.config, new.config) < radius, nodes))
+        if len(neighbors) == 0:
+            print('rrt_star: No neighbors')
+
         nodes.append(new)
 
         # TODO: smooth solution once found to improve the cost bound

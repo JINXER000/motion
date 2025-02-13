@@ -92,7 +92,7 @@ def solve_and_smooth(solve_fn, q1, q2, distance_fn, sample_fn, extend_fn, collis
 def solve(start, goal, distance_fn, sample_fn, extend_fn, collision_fn, algorithm='birrt',
           max_time=INF, max_iterations=INF, num_samples=100, smooth=None, smooth_time=INF, # TODO: smooth_iterations
           weights=None, circular={},
-          cost_fn=None, success_cost=INF, verbose=False, **kwargs):
+          cost_fn=None, success_cost=INF, verbose=False, radius = 30, **kwargs):
     # TODO: better shared default options
     # TODO: allow distance_fn to be skipped
     # TODO: return lambda function
@@ -129,7 +129,7 @@ def solve(start, goal, distance_fn, sample_fn, extend_fn, collision_fn, algorith
         path = birrt(start, goal, distance_fn, sample_fn, extend_fn, collision_fn,
                      max_iterations=max_iterations, max_time=remaining_time, smooth=None, **kwargs) # restarts=2
     elif algorithm == 'rrt_star':
-        path = rrt_star(start, goal, distance_fn, sample_fn, extend_fn, collision_fn, radius=1,
+        path = rrt_star(start, goal, distance_fn, sample_fn, extend_fn, collision_fn, radius=radius,
                         max_iterations=max_iterations, max_time=remaining_time)
     elif algorithm == 'lattice':
         path = lattice(start, goal, extend_fn, collision_fn, distance_fn=distance_fn, max_time=INF)
