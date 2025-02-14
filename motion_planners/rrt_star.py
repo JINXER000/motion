@@ -105,7 +105,7 @@ def rrt_star(start, goal, distance_fn, sample_fn, extend_fn, collision_fn, radiu
     while (elapsed_time(start_time) < max_time) and (iteration < max_iterations):
         do_goal = goal_n is None and (iteration == 0 or random() < goal_probability)
         s = goal if do_goal else sample_fn()
-        # Informed RRT*
+        # Informed RRT* NOTE:do not use! no way  to break the loop
         if informed and (goal_n is not None) and (distance_fn(start, s) + distance_fn(s, goal) >= goal_n.cost):
             continue
         if iteration % PRINT_FREQUENCY == 0:
